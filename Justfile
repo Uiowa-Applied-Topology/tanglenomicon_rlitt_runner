@@ -19,14 +19,17 @@ do-prettier:
 
 
 check-ruff:
-    ruff check
-    ruff format --check
+    ruff check runner/
+    ruff format --check runner/
 
 do-ruff:
-    ruff format
+    ruff format runner/
 
 doc-serve: 
     mkdocs serve --livereload
+
+test-all:
+    pytest
 
 # build the docs
 docs:

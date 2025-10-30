@@ -1,7 +1,7 @@
 """The faktory client core functionality."""
 
 import time
-from typing import Generator
+from collections.abc import Generator
 
 from dacite import from_dict
 from pyfaktory import Client, Job, Producer

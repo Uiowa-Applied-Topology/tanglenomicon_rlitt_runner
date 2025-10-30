@@ -30,29 +30,22 @@ jobs:
                   nix develop --command \
                       just check-prettier
 
-            - name: C-format
+            - name: ruff
               run: |
                   nix develop --command \
-                      just check-uncrustify
+                      just check-ruff
 
             - name: Build
               run: |
                   nix develop --command \
-                      just build_all
+                      just build-wrapper
 
             - name: Test
               run: |
                   nix develop --command \
-                    just test_all
+                    just test-all
 
-
-            - name: Zip Docs
+            - name: Docs
               run: |
                   nix develop --command \
-                    just zip
-
-            - name: Release
-              uses: softprops/action-gh-release@v2
-              with:
-                  files: |
-                      ./Library_Documentation.zip
+                      just docs

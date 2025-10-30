@@ -35,10 +35,7 @@ def test_valid():
     stencil_data = [{'rootstock_tcn': 0, 'scion_tcn': 1, 'TCN': 1, 'state': 0}]
     stencil_col.insert_many(stencil_data)
     stencil = from_dict(data_class=odm.StencilDB, data=stencil_col.find_one())
-    li = [job for job in fproducer._process_stencil(stencil_col, arbor_col, stencil)]
-    for job in li:
-        print(job)
-    assert len(li) == 9
+    assert len([job for job in fproducer._process_stencil(stencil_col, arbor_col, stencil)]) == 9
     for sten in stencil_col.find():
         print(sten)
     stencil = from_dict(data_class=odm.StencilDB, data=stencil_col.find_one())
@@ -70,6 +67,7 @@ def test_empty_stencil_col():
     stencil = None
     try:
         li = [job for job in fproducer._process_stencil(stencil_col, arbor_col, stencil)]
+        print(li)
     except Exception:
         assert True
 
@@ -86,5 +84,6 @@ def test_empty_arbor_col():
     stencil = from_dict(data_class=odm.StencilDB, data=stencil_col.find_one())
     try:
         li = [job for job in fproducer._process_stencil(stencil_col, arbor_col, stencil)]
+        print(li)
     except Exception:
         assert True

@@ -3,7 +3,6 @@
 from bson import ObjectId
 from pymongo import UpdateOne
 from pymongo.collection import Collection
-from pymongo.database import Database
 
 from .. import config_store as cfg
 from .. import odm
@@ -43,7 +42,7 @@ class Worker:
         """Init the worker.
 
         Args:
-            dbc: The Database contining the arborescent tangle collection.
+            arbor_col: The arborescent tangle collection.
             rt_idx: ID of the start of the rootstock page.
             rt_tcn: TCN of the rootstocks.
             sci_idx: ID of the start of the scion page.
@@ -157,7 +156,7 @@ class Worker:
         self._batch_write()
 
 
-def faktory_job(rt_idx: str, rt_tcn: int, sci_idx: str, sci_acn: int, page_size: int):
+def faktory_job(rt_idx: str, rt_tcn: int, sci_idx: str, sci_tcn: int, page_size: int):
     """Pyfaktory worker callback for generating RLITT.
 
     Args:
@@ -165,6 +164,7 @@ def faktory_job(rt_idx: str, rt_tcn: int, sci_idx: str, sci_acn: int, page_size:
         rt_tcn: TCN of the rootstocks.
         sci_idx: ID of the start of the scion page.
         sci_tcn: TCN of the scions.
+        page_size: The size of the page of tangles to retrieve.
     """
     db_cfg = cfg.cfg_dict['db-connection-info']
     dbc = odm.get_db(
@@ -174,5 +174,5 @@ def faktory_job(rt_idx: str, rt_tcn: int, sci_idx: str, sci_acn: int, page_size:
         db_cfg['password'],
         db_cfg['database'],
     )
-    job = Worker(odm.get_arborescent_collection(dbc), rt_idx, rt_tcn, sci_idx, sci_acn, page_size)
+    job = Worker(odm.get_arborescent_collection(dbc), rt_idx, rt_tcn, sci_idx, sci_tcn, page_size)
     job.process()
