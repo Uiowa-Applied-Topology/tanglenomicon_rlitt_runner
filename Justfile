@@ -34,10 +34,9 @@ docs:
     mkdocs build
 
 [working-directory: 'libraries']
-build_wrapper: 
+build-wrapper: bootstrap 
     source ../.venv/bin/activate && \
-    cmake -G Ninja -B.build -DCMAKE_BUILD_TYPE=Production && \ 
-    cmake --build .build  
+    cmake -G Ninja -B.build -DCMAKE_BUILD_TYPE=Production && cmake --build .build  
 
 decrypt-sops:
     sops decrypt .sops/mongo.enc.yaml > .sops/mongo.yaml
@@ -48,15 +47,15 @@ encrypt-sops:
     sops encrypt .sops/mongo_dev.yaml > .sops/mongo_dev.enc.yaml
 
 
-build_docker: build_wrapper
+build-docker: build-wrapper
      docker build -t faktory_python -f ./docker/Dockerfile . 
      docker build -t faktory_prom -f ./docker/prometheus_reporting/Dockerfile . 
 
-run_docker: 
+run-docker: 
     docker compose -f ./docker/docker-compose.yaml up -d --build 
 
-stop_docker: 
+stop-docker: 
     docker compose -f ./docker/docker-compose.yaml down
 
-go: bootstrap docs build_wrapper build_docker run_docker
+go: build-docker docs run-docker
     echo "done!"
