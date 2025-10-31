@@ -700,7 +700,7 @@ db.arborescent_tangles.insertMany([
         "positivity": "neutral"
     }
 ]),
-db.arborescent_tangles.createIndex({"notation":1}),
+db.arborescent_tangles.createIndex({"notation":1},  {unique: true}),
 db.arborescent_tangles.createIndex({"TCN":1,"is_good":1}),
 db.arborescent_tangles.createIndex({"TCN":1,"is_good":1,"_id":1}),
 db.arborescent_stencils.insertMany([
