@@ -89,10 +89,7 @@ def start_job(rootstocks, scions, callback):
     cdef gen_rlitt_config_t config
     cdef note_wptt_t **rs_list
     cdef note_wptt_t **sci_list
-    cdef gen_rlitt_positivity_e *rs_pos_list
-    cdef gen_rlitt_positivity_e *sci_pos_list
     cdef note_wptt_node_buffer_t buffer
-    cdef size_t *tv_set_lens
     cdef uint8_t res_val
     ret_val = True
     try:
