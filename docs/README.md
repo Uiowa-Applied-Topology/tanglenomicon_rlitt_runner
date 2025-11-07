@@ -30,8 +30,9 @@ Before running the toolchain ensure that you are running Linux and have the foll
 3. [Git](https://git-scm.com/)
     - And clone the repository
 4. [CMake](https://cmake.org/)
-5. [GCC (or another c compiler, this should already be the case on Linux)](https://gcc.gnu.org/)
-6. [MongoDB Compass (optional for viewing database)](https://www.mongodb.com/products/tools/compass)
+5. [uv](https://docs.astral.sh/uv/)
+6. [GCC (or another c compiler, this should already be the case on Linux)](https://gcc.gnu.org/)
+7. [MongoDB Compass (optional for viewing database)](https://www.mongodb.com/products/tools/compass)
 
 Run the following command:
 
