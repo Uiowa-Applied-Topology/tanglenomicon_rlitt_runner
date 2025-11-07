@@ -25,7 +25,7 @@ GNU GPL v3
 
 Before running the toolchain ensure that you are running Linux and have the following installed:
 
-1. [Docker](https://www.docker.com/)
+1. [Rootless Docker](https://docs.docker.com/engine/security/rootless/)
 2. [Just](https://github.com/casey/just)
 3. [Git](https://git-scm.com/)
     - And clone the repository
