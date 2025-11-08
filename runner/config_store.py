@@ -22,9 +22,7 @@ def load(path: Path):
     try:
         with open(path) as f:
             cfg_dict.update(yaml.load(f, Loader=yaml.FullLoader))
-        ...
     except Exception:
         raise NameError(
             'config load error'
         ) from None  # @@@IMPROVEMENT: needs to be updated to exception object
-    ...
