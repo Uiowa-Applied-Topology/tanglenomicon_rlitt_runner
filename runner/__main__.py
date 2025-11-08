@@ -1,6 +1,5 @@
 """Main entry point for the RLITT generator toolchain."""
 
-import time
 from pathlib import Path
 
 import typer
@@ -44,5 +43,4 @@ def worker(config: Path):
 
 
 if __name__ == '__main__':
-    time.sleep(1)
     app()
