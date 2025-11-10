@@ -106,7 +106,7 @@ class Worker:
         # End internal function def ##############################################################
 
         # Get list of rootstocks
-        rt = list(
+        rootstocks = list(
             self._arbor_col.find(
                 {'TCN': self._rt_tcn, '_id': {'$gte': ObjectId(self._rt_idx)}},
                 projection={'notation': 1, 'positivity': 1},
@@ -115,12 +115,12 @@ class Worker:
         )
 
         # Process rootstocks into positivity equivalence. This reduces unneeded computation.
-        rp = [tang['notation'] for tang in rt if tang['positivity'] == 'positive']
-        rn = [tang['notation'] for tang in rt if tang['positivity'] == 'negative']
-        ru = [tang['notation'] for tang in rt if tang['positivity'] == 'neutral']
+        rs_by_positivity = {'positive': [], 'negative': [], 'neutral': []}
+        for rootstock in rootstocks:
+            rs_by_positivity[rootstock['positivity']].append(rootstock['notation'])
 
         # Get list of good scions
-        sci = list(
+        scions = list(
             self._arbor_col.find(
                 {
                     'TCN': self._sci_tcn,
@@ -133,12 +133,20 @@ class Worker:
         )
 
         # Process scions into positivity equivalence. This reduces unneeded computation.
-        sp = [tang['notation'] for tang in sci if tang['positivity'] == 'positive']
-        sn = [tang['notation'] for tang in sci if tang['positivity'] == 'negative']
-        su = [tang['notation'] for tang in sci if tang['positivity'] == 'neutral']
+        sci_by_positivity = {'positive': [], 'negative': [], 'neutral': []}
+        for scion in scions:
+            sci_by_positivity[scion['positivity']].append(scion['notation'])
 
         # Process rootstocks and scions into combinations that can generate canonical trees.
-        for job in [(rp, sp), (rp, su), (ru, sp), (rn, sn), (rn, su), (ru, sn), (ru, su)]:
+        for job in [
+            (rs_by_positivity['positive'], sci_by_positivity['positive']),
+            (rs_by_positivity['positive'], sci_by_positivity['neutral']),
+            (rs_by_positivity['negative'], sci_by_positivity['negative']),
+            (rs_by_positivity['negative'], sci_by_positivity['neutral']),
+            (rs_by_positivity['neutral'], sci_by_positivity['positive']),
+            (rs_by_positivity['neutral'], sci_by_positivity['negative']),
+            (rs_by_positivity['neutral'], sci_by_positivity['neutral']),
+        ]:
             if job[0] and job[1]:
                 if lib_wrapper.run(job[0], job[1], _write_callback):
                     self._batch_write()
@@ -146,6 +154,7 @@ class Worker:
                     raise NameError(
                         'Generation went wrong'
                     ) from None  # @@@IMPROVEMENT: needs to be updated to exception object
+
         # un-goodifying everything we generated
         if lib_wrapper.run(['i[0]'], list(self._notes), _write_callback):
             self._batch_write()
