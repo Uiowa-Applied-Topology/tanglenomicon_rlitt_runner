@@ -45,7 +45,7 @@
               inkscape
               just
               ninja
-              nodePackages.prettier
+              prettier
               openssl
               rip2
               ruff
