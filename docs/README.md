@@ -326,7 +326,7 @@ flowchart LR
     wrap["Cython Wrapper For Core Libraries"]
     work["Faktory Worker"]
     prod["Faktory Producer"]
-    orm["MongoDB ORM"]
+    odm["MongoDB ODM"]
     config["Configuration Store"]
     ep["Typer Entry point"]
     ep -->|1| work
@@ -341,7 +341,7 @@ flowchart LR
 
 ### Units
 
-- [Typer Entry point](./unit-descriptions/entrypoint.md)
+- [Typer entry point](./unit-descriptions/entrypoints.md)
 - [Configuration Handler](./unit-descriptions/config.md)
 - [Faktory Worker](./unit-descriptions/worker.md)
 - [Faktory Producer](./unit-descriptions/producer.md)
